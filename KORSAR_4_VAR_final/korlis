@@ -1,0 +1,900 @@
+ 00001 restart = 0;
+ 00002 title = 'VD.035.004 LAB4';
+ 00003 dt_max = 0.0005;
+ 00004 dt_out = 0.1;
+ 00005 dt_diag = 10.;
+ 00006 fin_tim = 300.;
+ 00007 
+ 00008 LAYOUT
+ 00009   BVOL_T1 - CH1/i;
+ 00010   CH1/o - BVOL_T2;
+ 00011   CH1(2) - CPUMP1;
+ 00012   CH1(4) - LR1;
+ 00013 END
+ 00014 
+ 00015 CALL BVOL_T1;
+ 00016 CALL BVOL_T2;
+ 00017 CALL CH1;
+ 00018 CALL CPUMP1;
+ 00019 CALL LR1;
+ 00020 
+ 00021 SET DRIVE;
+ 00022 OUT Y;
+ 00023 END
+ 00024 
+ 00025 DATA BVOL_T1
+ 00026   P=15.4E6;
+ 00027   VOID=0.;
+ 00028   T=573.15,573.15;
+ 00029 END
+ 00030 
+ 00031 DATA BVOL_T2
+ 00032   P=15.4E6;
+ 00033   VOID=0.;
+ 00034   T=573.15,573.15;
+ 00035 END
+ 00036 
+ 00037 DATA CH1
+ 00038   N=3;
+ 00039   S(1:3)=0.5;
+ 00040   PR(1:3)=2.5066;
+ 00041   DZ(1)=5.;
+ 00042   DZ(2)=6.;
+ 00043   DZ(3)=5.;
+ 00044   DH(1:3)=0.;
+ 00045   ROU(1:3)=1.E-6;
+ 00046   TYPE(1:3)=0;
+ 00047   P(1:3)=15.4E6;
+ 00048   T(1,1:3)=573.15;
+ 00049   T(2,1:3)=573.15;
+ 00050   VOID(1:3)=0.;
+ 00051 END
+ 00052 
+ 00053 DATA LR1
+ 00054   CSI1=11.72;
+ 00055   CSI2=11.72;
+ 00056 END
+ 00057 
+ 00058 DATA CPUMP1
+ 00059   NP1=3; NP2=3; NP3=4; NP4=3;
+ 00060   NM1=3; NM2=3; NM3=3; NM4=3;
+ 00061   NKH=2; NKM=2;
+ 00062 
+ 00063   MODE=0;
+ 00064   OR=0;
+ 00065   TYPE=1;
+ 00066   REVN=104.199;
+ 00067   QN=5.88889;
+ 00068   DPN=589467.;
+ 00069   PEXP=15.4E6;
+ 00070   TEXP=573.15;
+ 00071   J=7600.;
+ 00072   EFF1=0.70;
+ 00073   EFF=0.9916;
+ 00074   HMOM=47500.;
+ 00075   REV=1.0;
+ 00076   F=0.;
+ 00077   D=1.;
+ 00078   K=0.;
+ 00079   REV0=1.E-3;
+ 00080 
+ 00081   CP1(1,1:3)=-1., 0., 1.;
+ 00082   CP1(2,1:3)= 1., 1., 1.;
+ 00083   CP1(3,1:3)= 0.;
+ 00084 
+ 00085   CP2(1,1:3)=-1., 0., 1.;
+ 00086   CP2(2,1:3)= 1., 1., 1.;
+ 00087   CP2(3,1:3)= 0.;
+ 00088 
+ 00089   CP3(1,1:4)=-1., 0., 0.5, 1.;
+ 00090   CP3(2,1:4)=-1., -1., -0.2, 1.;
+ 00091   CP3(3,1:4)= 0.;
+ 00092 
+ 00093   CP4(1,1:3)=-1., 0., 1.;
+ 00094   CP4(2,1:3)=-1., -1., 1.;
+ 00095   CP4(3,1:3)= 0.;
+ 00096 
+ 00097   CM1(1,1:3)=-1., 0., 1.;
+ 00098   CM1(2,1:3)= 1., 1., 0.65;
+ 00099   CM1(3,1:3)= 0.;
+ 00100 
+ 00101   CM2(1,1:3)=-1., 0., 1.;
+ 00102   CM2(2,1:3)= 1., 1., 1.;
+ 00103   CM2(3,1:3)= 0.;
+ 00104 
+ 00105   CM3(1,1:3)=-1., 0., 1.;
+ 00106   CM3(2,1:3)=-1., -1., 1.;
+ 00107   CM3(3,1:3)= 0.;
+ 00108 
+ 00109   CM4(1,1:3)=-1., 0., 1.;
+ 00110   CM4(2,1:3)=-1., -1., 0.65;
+ 00111   CM4(3,1:3)= 0.;
+ 00112 
+ 00113   KH(1,1:2)=0.,1.;
+ 00114   KH(2,1:2)=0.,0.;
+ 00115   KM(1,1:2)=0.,1.;
+ 00116   KM(2,1:2)=0.,0.;
+ 00117 END
+ 00118 EVENT DRIVE
+ 00119   HMOM.CPUMP1 = 47500. * MIN(1., TAU / 5.);
+ 00120   IF TAU > 20. THEN
+ 00121     HMOM.CPUMP1 = 0.;
+ 00122   ENDIF
+ 00123 END
+ 00124 
+ 00125 OUTPUT Y
+ 00126   WRITE REV.CPUMP1, QT.CPUMP1, DP.CPUMP1;
+ 00127 END
+  
+ %inf- DATA BVOL_T1 Default value of XB.BVOL_T1 = 0.000000000E+00
+ %inf- DATA BVOL_T1 Default value of XNG.BVOL_T1 = 0.000000000E+00
+ %inf- DATA BVOL_T1 Default value of XNF.BVOL_T1 = 0.000000000E+00
+ %inf- DATA BVOL_T2 Default value of XB.BVOL_T2 = 0.000000000E+00
+ %inf- DATA BVOL_T2 Default value of XNG.BVOL_T2 = 0.000000000E+00
+ %inf- DATA BVOL_T2 Default value of XNF.BVOL_T2 = 0.000000000E+00
+ %inf- DATA CH1 Default value of XB.CH1 = 0.000000000E+00
+ %inf- DATA CH1 Default value of MBW.CH1 = 0.000000000E+00
+ %inf- DATA CH1 Default value of SRE.CH1 = 1.000000000E+00
+ %inf- DATA CH1 Default value of AOUAS.CH1 = 1.000000000E+00
+ %inf- DATA CH1 Default value of NE.CH1 = 1
+ %inf- DATA CH1 Default value of XNG.CH1 = 0.000000000E+00
+ %inf- DATA CH1 Default value of XNF.CH1 = 0.000000000E+00
+ %inf- DATA CH1 Default value of JIN.CH1 = 5.000000000E-01
+ %inf- DATA CH1 Default value of JOU.CH1 = 5.000000000E-01
+ %inf- DATA CH1 Default value of PROC.CH1 = 0
+ %inf- DATA CPUMP1 Default value of HVAC.CPUMP1 = 0.000000000E+00
+ %inf- DATA CPUMP1 Default value of DIAM.CPUMP1 = 0.000000000E+00
+ %inf- DATA LR1 Default value of DHOLE.LR1 = 0.000000000E+00
+ %inf- DATA LR1 Default value of SHOLE.LR1 = 0.000000000E+00
+ %inf- MAIN proc. Default value of DT_SAV is 0.000000000E+00
+ %inf- MAIN proc. Default value of APPEND_SAV is 1
+ %inf- MAIN proc. Default value of LOCAL_ERR is 1.000000000E-04
+ %inf- MAIN proc. Default value of APPEND_RES is 1
+  
+ %inf- List of parameters that will be written into <korres>
+ REV.CPUMP1 QT.CPUMP1 DP.CPUMP1
+  
+ %inf- NGAS = "H2O"
+  
+ %inf- List of EVENTs that will be processed at run time
+ DRIVE
+  
+  
+ Usage of space: Keys, Descriptors, Notkeys, Events, Output, Layout
+ Used   space:   0.14%    1.61%     10.50%    6.00%   0.38%   4.69%
+  
+ %inf- Total number of elements in scheme is 5:
+         CH         - 1 ( 3 volumes )
+         BVOL_T     - 2
+         LR         - 1
+         CPUMP      - 1
+       CH+COL cells - 3
+  
+  
+ %inf- WS properties type: non-spline
+  
+ Usage of space for Keys with integer work arrays:   0.14%
+ Usage of space for Keys with real work arrays:      0.15%
+ %inf- Number of single volumes  : 3
+ %inf-                  in  CHs  : 3
+ %inf-                  in COLs  : 0
+ %inf- Number of single junctions: 4
+ %inf- NOPT:  1 0 0 0 1  0 0 0 0 0  0 0 0 0 0  0 0 0 0 0
+ %inf- S2-saving full. Length = 1322
+  
+ +++++++++ Starting time
+ %inf- Problem time = 5.041735297E-02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 0.000000000E+00:5.041735297E-02 Av.step =    4.384117650E-04
+       N of accepted steps 1.150000000E+02 Eff_average_step= 4.958610186E-06
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = 1.731320893E+00
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.810398484E+03
+       (Mc + Ms - M0) / M0 = -6.150705926E-08
+       (Mc + Ms - M0) / Mc = -6.152539027E-08
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = 3.511443991E+06
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.774546681E+09
+       (Hc + Hs - H0) / H0 = -6.115926154E-08
+       (Hc + Hs - H0) / Hc = -6.118688842E-08
+ --------- Starting time
+  
+  
+ %inf- Problem time = 1.000041735E+01 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 5.041735297E-02:1.000041735E+01 Av.step =    4.999748756E-04
+       N of accepted steps 1.990100000E+04 Eff_average_step= 5.000251256E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -6.058465570E-01
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812736008E+03
+       (Mc + Ms - M0) / M0 = -1.478476341E-10
+       (Mc + Ms - M0) / Mc = -1.478322244E-10
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -3.328926296E+06
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.781387529E+09
+       (Hc + Hs - H0) / H0 = 2.592220036E-10
+       (Hc + Hs - H0) / Hc = 2.591111068E-10
+  
+ %inf- Problem time = 2.000041735E+01 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.000041735E+01:2.000041735E+01 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -6.573862865E-01
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812787548E+03
+       (Mc + Ms - M0) / M0 = -4.769310321E-11
+       (Mc + Ms - M0) / Mc = -4.768770945E-11
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -3.628362921E+06
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.781686966E+09
+       (Hc + Hs - H0) / H0 = 3.594345425E-10
+       (Hc + Hs - H0) / Hc = 3.592669490E-10
+  
+ %inf- Problem time = 3.000041735E+01 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.000041735E+01:3.000041735E+01 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -2.537529729E-01
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812383917E+03
+       (Mc + Ms - M0) / M0 = 3.810824209E-10
+       (Mc + Ms - M0) / Mc = 3.810657837E-10
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -1.474004356E+06
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.779532611E+09
+       (Hc + Hs - H0) / H0 = 7.880342289E-10
+       (Hc + Hs - H0) / Hc = 7.878849178E-10
+  
+ %inf- Problem time = 4.000041735E+01 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 3.000041735E+01:4.000041735E+01 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -1.358186438E-01
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812265981E+03
+       (Mc + Ms - M0) / M0 = 1.066512009E-10
+       (Mc + Ms - M0) / Mc = 1.066487087E-10
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -7.794510008E+05
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778838055E+09
+       (Hc + Hs - H0) / H0 = 5.134733637E-10
+       (Hc + Hs - H0) / Hc = 5.134219126E-10
+  
+ %inf- Problem time = 5.000041735E+01 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 4.000041735E+01:5.000041735E+01 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -8.229497557E-02
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812212457E+03
+       (Mc + Ms - M0) / M0 = 5.366023755E-11
+       (Mc + Ms - M0) / Mc = 5.365947777E-11
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -4.749918735E+05
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778533596E+09
+       (Hc + Hs - H0) / H0 = 4.604678383E-10
+       (Hc + Hs - H0) / Hc = 4.604397199E-10
+  
+ %inf- Problem time = 6.000041735E+01 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 5.000041735E+01:6.000041735E+01 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -5.450289620E-02
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812184665E+03
+       (Mc + Ms - M0) / M0 = 3.055282944E-11
+       (Mc + Ms - M0) / Mc = 3.055254294E-11
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -3.162364826E+05
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778374840E+09
+       (Hc + Hs - H0) / H0 = 4.373585146E-10
+       (Hc + Hs - H0) / Hc = 4.373407332E-10
+  
+ %inf- Problem time = 7.000041735E+01 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 6.000041735E+01:7.000041735E+01 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -3.825404594E-02
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812168416E+03
+       (Mc + Ms - M0) / M0 = 1.897299287E-11
+       (Mc + Ms - M0) / Mc = 1.897286799E-11
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -2.231457159E+05
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778281749E+09
+       (Hc + Hs - H0) / H0 = 4.257829476E-10
+       (Hc + Hs - H0) / Hc = 4.257707324E-10
+  
+ %inf- Problem time = 8.000041735E+01 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 7.000041735E+01:8.000041735E+01 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -2.794641031E-02
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812158109E+03
+       (Mc + Ms - M0) / M0 = 1.256864737E-11
+       (Mc + Ms - M0) / Mc = 1.256858693E-11
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -1.639570769E+05
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778222561E+09
+       (Hc + Hs - H0) / H0 = 4.193793511E-10
+       (Hc + Hs - H0) / Hc = 4.193705108E-10
+  
+ %inf- Problem time = 9.000041735E+01 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 8.000041735E+01:9.000041735E+01 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -2.100643404E-02
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812151169E+03
+       (Mc + Ms - M0) / M0 = 8.732017683E-12
+       (Mc + Ms - M0) / Mc = 8.731986123E-12
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -1.240297708E+05
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778182633E+09
+       (Hc + Hs - H0) / H0 = 4.155383212E-10
+       (Hc + Hs - H0) / Hc = 4.155316950E-10
+  
+ %inf- Problem time = 1.000004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 9.000041735E+01:1.000004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -1.611737430E-02
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812146279E+03
+       (Mc + Ms - M0) / M0 = 6.301380238E-12
+       (Mc + Ms - M0) / Mc = 6.301362764E-12
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -9.585443112E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778154458E+09
+       (Hc + Hs - H0) / H0 = 4.131103813E-10
+       (Hc + Hs - H0) / Hc = 4.131052902E-10
+  
+ %inf- Problem time = 1.100004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.000004174E+02:1.100004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -1.254876984E-02
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812142711E+03
+       (Mc + Ms - M0) / M0 = 4.696499170E-12
+       (Mc + Ms - M0) / Mc = 4.696489030E-12
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -7.525725651E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778133861E+09
+       (Hc + Hs - H0) / H0 = 4.115109229E-10
+       (Hc + Hs - H0) / Hc = 4.115069412E-10
+  
+ %inf- Problem time = 1.200004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.100004174E+02:1.200004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -9.869049525E-03
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812140031E+03
+       (Mc + Ms - M0) / M0 = 3.574835023E-12
+       (Mc + Ms - M0) / Mc = 3.574828953E-12
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -5.976830744E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778118372E+09
+       (Hc + Hs - H0) / H0 = 4.103940607E-10
+       (Hc + Hs - H0) / Hc = 4.103909070E-10
+  
+ %inf- Problem time = 1.300004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.200004174E+02:1.300004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -7.809973734E-03
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812137972E+03
+       (Mc + Ms - M0) / M0 = 2.781157490E-12
+       (Mc + Ms - M0) / Mc = 2.781153753E-12
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -4.785039543E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778106454E+09
+       (Hc + Hs - H0) / H0 = 4.096012590E-10
+       (Hc + Hs - H0) / Hc = 4.095987390E-10
+  
+ %inf- Problem time = 1.400004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.300004174E+02:1.400004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -6.197771431E-03
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812136360E+03
+       (Mc + Ms - M0) / M0 = 2.203894789E-12
+       (Mc + Ms - M0) / Mc = 2.203892439E-12
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -3.850652268E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778097110E+09
+       (Hc + Hs - H0) / H0 = 4.090194706E-10
+       (Hc + Hs - H0) / Hc = 4.090174455E-10
+  
+ %inf- Problem time = 1.500004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.400004174E+02:1.500004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -4.915908172E-03
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812135078E+03
+       (Mc + Ms - M0) / M0 = 1.762615089E-12
+       (Mc + Ms - M0) / Mc = 1.762613598E-12
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -3.106739086E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778089671E+09
+       (Hc + Hs - H0) / H0 = 4.085791751E-10
+       (Hc + Hs - H0) / Hc = 4.085775429E-10
+  
+ %inf- Problem time = 1.600004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.500004174E+02:1.600004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -3.883932949E-03
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812134046E+03
+       (Mc + Ms - M0) / M0 = 1.423831205E-12
+       (Mc + Ms - M0) / Mc = 1.423830253E-12
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -2.507047227E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778083674E+09
+       (Hc + Hs - H0) / H0 = 4.082354969E-10
+       (Hc + Hs - H0) / Hc = 4.082341809E-10
+  
+ %inf- Problem time = 1.700004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.600004174E+02:1.700004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -3.044906186E-03
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812133207E+03
+       (Mc + Ms - M0) / M0 = 1.168608796E-12
+       (Mc + Ms - M0) / Mc = 1.168608184E-12
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -2.018812389E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778078792E+09
+       (Hc + Hs - H0) / H0 = 4.079740905E-10
+       (Hc + Hs - H0) / Hc = 4.079730315E-10
+  
+ %inf- Problem time = 1.800004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.700004174E+02:1.800004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -2.357643807E-03
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812132520E+03
+       (Mc + Ms - M0) / M0 = 9.496902497E-13
+       (Mc + Ms - M0) / Mc = 9.496898645E-13
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -1.618325271E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778074787E+09
+       (Hc + Hs - H0) / H0 = 4.077547398E-10
+       (Hc + Hs - H0) / Hc = 4.077538912E-10
+  
+ %inf- Problem time = 1.900004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.800004174E+02:1.900004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -1.791853008E-03
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812131954E+03
+       (Mc + Ms - M0) / M0 = 7.814719241E-13
+       (Mc + Ms - M0) / Mc = 7.814716831E-13
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -1.288126846E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778071485E+09
+       (Hc + Hs - H0) / H0 = 4.075873760E-10
+       (Hc + Hs - H0) / Hc = 4.075867008E-10
+  
+ %inf- Problem time = 2.000004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 1.900004174E+02:2.000004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -1.324863421E-03
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812131487E+03
+       (Mc + Ms - M0) / M0 = 6.404814948E-13
+       (Mc + Ms - M0) / Mc = 6.404813488E-13
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -1.015153407E+04
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778068755E+09
+       (Hc + Hs - H0) / H0 = 4.074490709E-10
+       (Hc + Hs - H0) / Hc = 4.074485390E-10
+  
+ %inf- Problem time = 2.100004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.000004174E+02:2.100004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -9.395331268E-04
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812131102E+03
+       (Mc + Ms - M0) / M0 = 5.282837837E-13
+       (Mc + Ms - M0) / Mc = 5.282836983E-13
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -7.895154425E+03
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778066499E+09
+       (Hc + Hs - H0) / H0 = 4.073362689E-10
+       (Hc + Hs - H0) / Hc = 4.073358553E-10
+  
+ %inf- Problem time = 2.200004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.100004174E+02:2.200004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -6.227387083E-04
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812130785E+03
+       (Mc + Ms - M0) / M0 = 4.304824315E-13
+       (Mc + Ms - M0) / Mc = 4.304823854E-13
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -6.036429667E+03
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778064640E+09
+       (Hc + Hs - H0) / H0 = 4.072319271E-10
+       (Hc + Hs - H0) / Hc = 4.072316109E-10
+  
+ %inf- Problem time = 2.300004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.200004174E+02:2.300004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -3.642960987E-04
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812130526E+03
+       (Mc + Ms - M0) / M0 = 3.478598493E-13
+       (Mc + Ms - M0) / Mc = 3.478598275E-13
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -4.516810247E+03
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778063120E+09
+       (Hc + Hs - H0) / H0 = 4.071543145E-10
+       (Hc + Hs - H0) / Hc = 4.071540779E-10
+  
+ %inf- Problem time = 2.400004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.300004174E+02:2.400004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = -1.562769926E-04
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812130318E+03
+       (Mc + Ms - M0) / M0 = 2.704011784E-13
+       (Mc + Ms - M0) / Mc = 2.704011711E-13
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -3.290749172E+03
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778061894E+09
+       (Hc + Hs - H0) / H0 = 4.070714295E-10
+       (Hc + Hs - H0) / Hc = 4.070712571E-10
+  
+ %inf- Problem time = 2.500004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.400004174E+02:2.500004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = 7.689761638E-06
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812130154E+03
+       (Mc + Ms - M0) / M0 = 2.089036882E-13
+       (Mc + Ms - M0) / Mc = 2.089036884E-13
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -2.322140096E+03
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778060926E+09
+       (Hc + Hs - H0) / H0 = 4.070060779E-10
+       (Hc + Hs - H0) / Hc = 4.070059563E-10
+  
+ %inf- Problem time = 2.600004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.500004174E+02:2.600004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = 1.330198427E-04
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812130029E+03
+       (Mc + Ms - M0) / M0 = 1.544478953E-13
+       (Mc + Ms - M0) / Mc = 1.544478988E-13
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -1.581302148E+03
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778060185E+09
+       (Hc + Hs - H0) / H0 = 4.069577693E-10
+       (Hc + Hs - H0) / Hc = 4.069576864E-10
+  
+ %inf- Problem time = 2.700004174E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.600004174E+02:2.700004174E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = 2.248544985E-04
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812129937E+03
+       (Mc + Ms - M0) / M0 = 9.701894131E-14
+       (Mc + Ms - M0) / Mc = 9.701894507E-14
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -1.041796596E+03
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778059645E+09
+       (Hc + Hs - H0) / H0 = 4.068935212E-10
+       (Hc + Hs - H0) / Hc = 4.068934665E-10
+  
+ %inf- Problem time = 2.800004173E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.700004174E+02:2.800004173E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = 2.890638559E-04
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812129873E+03
+       (Mc + Ms - M0) / M0 = 4.772705984E-14
+       (Mc + Ms - M0) / Mc = 4.772706221E-14
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -6.761091294E+02
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778059280E+09
+       (Hc + Hs - H0) / H0 = 4.068383463E-10
+       (Hc + Hs - H0) / Hc = 4.068383108E-10
+  
+ %inf- Problem time = 2.900004173E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.800004173E+02:2.900004173E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = 3.439197541E-04
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812129818E+03
+       (Mc + Ms - M0) / M0 = 2.769734292E-14
+       (Mc + Ms - M0) / Mc = 2.769734456E-14
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -4.217193953E+02
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778059025E+09
+       (Hc + Hs - H0) / H0 = 4.068216712E-10
+       (Hc + Hs - H0) / Hc = 4.068216490E-10
+  
+ %inf- Problem time = 3.000004173E+02 Step = 5.000000000E-04
+ ----- No divisions of DT occured in CH-s because of "Cour > C_max"
+ ----- No divisions of DT occured in CH-s because of "DisM > D_max"
+ ----- No divisions of DT occured in CH-s because of "DEnt > DE_max"
+ ----- No divisions of DT occured in CH-s because of "D_Pr > DP_max"
+ ----- No divisions of DT occured in CH-s because of "DVel > DV_max"
+ %inf- Gen_aSt = 5.000000000E-04 N_lim = 0.000000000E+00 eS= 5.000000000E-04
+ %inf- Interval 2.900004173E+02:3.000004173E+02 Av.step =    5.000000000E-04
+       N of accepted steps 2.000000000E+04 Eff_average_step= 5.000000000E-04
+       Other:kBvg=0.000000000E+00 kTiWd=0.000000000E+00 k2g=0.000000000E+00
+             kHCS=0.000000000E+00 kCour=0.000000000E+00 Sum=0.000000000E+00
+       N_rej_step_by_MEPV = 0.000000000E+00 N_rej_steps = 0.000000000E+00
+ %inf- Escaped(+)/entered(-) mass: Ms = 3.646685414E-04
+       Initial mass (at TAU=0)   : M0 = 5.812130162E+03
+       Current mass (current TAU): Mc = 5.812129797E+03
+       (Mc + Ms - M0) / M0 = 6.259286536E-15
+       (Mc + Ms - M0) / Mc = 6.259286929E-15
+ %inf- Escaped(+)/entered(-) enthalpy: Hs = -2.940168848E+02
+       Initial enthalpy (at TAU=0)   : H0 = 7.778058600E+09
+       Current enthalpy (current TAU): Hc = 7.778058897E+09
+       (Hc + Hs - H0) / H0 = 4.068096554E-10
+       (Hc + Hs - H0) / Hc = 4.068096398E-10
+ %inf- KORSAR terminated: TAU >= FIN_TIM
